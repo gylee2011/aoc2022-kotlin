@@ -1,13 +1,13 @@
 fun main() {
     fun part1(input: List<String>): Int = input
         .map { it.chunked(it.length / 2) }
-        .map { it[0].toSet() to it[1].toSet() }
+        .map { (first, second) -> first.toSet() to second.toSet() }
         .map { (first, second) -> first.intersect(second).first() }
         .sumOf { it.priority }
 
     fun part2(input: List<String>): Int = input
         .chunked(3)
-        .map { commonCharOf(it) }
+        .map { it.commonChar() }
         .sumOf { it.priority }
 
 
@@ -33,3 +33,7 @@ fun commonCharOf(list: List<String>): Char {
         .reduce { acc, set -> acc.apply { retainAll(set) } }
         .first()
 }
+
+fun List<String>.commonChar(): Char = map { it.toSet() }
+    .let { (first, second, third) -> first intersect  second intersect third }
+    .first()
